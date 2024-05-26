@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import firebase from "firebase/compat/app";
+import {
+    getFirestore, collection, getDocs 
+} from 'firebase/firestore' 
 
 const firebaseConfig = {
     apiKey: "AIzaSyACQCEbGGkFLra0S-PQB1FyoQCSzJ_k6iE",
@@ -11,4 +13,17 @@ const firebaseConfig = {
     measurementId: "G-R5L0MXNKMJ"
 };
 
+//initialize the firebase app
 initializeApp(firebaseConfig);
+
+//initialize the service
+const db = getFirestore();
+
+//Collect the reference
+const colRef = collection(db,'Tasks');
+
+//gets the collection Data
+getDocs(colRef)
+    .then((snapshot) => {
+        console.log(snapshot.docs)
+    })
