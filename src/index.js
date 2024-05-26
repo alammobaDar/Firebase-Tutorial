@@ -27,7 +27,15 @@ const colRef = collection(db,'Tasks');
 //gets the collection Data
 getDocs(colRef)
     .then((snapshot) => {
-        console.log(snapshot.docs);
+        let tasks = [];
+        snapshot.docs.forEach((doc) => {
+        tasks.push({...doc.data(), id: doc.id})
+        })
+        console.log(tasks);
+    })
+    .catch(err =>{
+        console.log(err.message);
     })
 
+console.log("edrich");
 console.log("edrich");
