@@ -1,3 +1,5 @@
+console.log("edrich");
+
 import { initializeApp } from "firebase/app";
 import {
     getFirestore, collection, getDocs 
@@ -27,3 +29,5 @@ getDocs(colRef)
     .then((snapshot) => {
         console.log(snapshot.docs);
     })
+
+console.log("edrich");
