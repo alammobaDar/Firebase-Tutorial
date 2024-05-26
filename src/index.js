@@ -25,5 +25,7 @@ const colRef = collection(db,'Tasks');
 //gets the collection Data
 getDocs(colRef)
     .then((snapshot) => {
-        console.log(snapshot.docs)
+        console.log(snapshot.docs);
     })
+
+console.log("edrich");
