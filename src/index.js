@@ -27,5 +27,3 @@ getDocs(colRef)
     .then((snapshot) => {
         console.log(snapshot.docs);
     })
-
-console.log("edrich");
