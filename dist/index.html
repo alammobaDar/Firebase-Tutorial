@@ -7,6 +7,30 @@
 </head>
 <body>
     <h1>Firebase</h1>
+
+    <form class="add">
+        <label for="taskname">Enter Task name</label><br>
+        <input type="text" name="taskname" required><br><br>
+
+        <label for="startdate">Start Date</label>
+        <input type="datetime-local" name="startdate" required>
+
+        <label for="duedate">Due Date</label>
+        <input type="datetime-local" name="duedate" required><br><br>
+
+        <label for="assignedperson">Assign a person</label><br>
+        <input type="text" name="assignedperson" required><br><br>
+        
+        <button>add a new task</button>
+    </form>
+
+    <form class="delete">
+        <br><label for="deletetask">Enter Task name</label><br>
+        <input type="text" name="deletetask" required><br>
+
+        <button>delete task</button>
+    </form>
+
     <script src="bundle.js"></script>
 </body>
 </html>

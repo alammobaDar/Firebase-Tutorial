@@ -1,8 +1,6 @@
-console.log("edrich");
-
 import { initializeApp } from "firebase/app";
 import {
-    getFirestore, collection, getDocs 
+    getFirestore, collection, getDocs, addDoc
 } from 'firebase/firestore' 
 
 const firebaseConfig = {
@@ -37,5 +35,20 @@ getDocs(colRef)
         console.log(err.message);
     })
 
-console.log("dadddaddada");
-console.log("edrich");
+const AddTaskForm = document.querySelector('.add')
+AddTaskForm.addEventListener('submit',  (e) =>{
+    e.preventDefault()
+
+    addDoc(colRef, {
+        task: AddTaskForm.taskname.value, 
+        startDate: AddTaskForm.startdate.value ,
+        dueDate: AddTaskForm.duedate.value,
+        assignedperson: AddTaskForm.assignedperson.value,
+    })
+})
+
+const DeleteTaskForm = document.querySelector('.delete')
+DeleteTaskForm.addEventListener('submit', (e) =>{
+    e.preventDefault()
+
+})
