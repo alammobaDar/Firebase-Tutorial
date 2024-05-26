@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
-    getFirestore, collection, getDocs, addDoc, deleteDoc, doc
+    getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot
 } from 'firebase/firestore' 
 
 const firebaseConfig = {
@@ -22,18 +22,30 @@ const db = getFirestore();
 //Collect the reference
 const colRef = collection(db,'Tasks');
 
-//gets the collection Data
-getDocs(colRef)
-    .then((snapshot) => {
-        let tasks = [];
-        snapshot.docs.forEach((doc) => {
-        tasks.push({...doc.data(), id: doc.id})
-        })
-        console.log(tasks);
+////gets the collection Data-------------------
+// getDocs(colRef)
+//     .then((snapshot) => {
+//         let tasks = [];
+//         snapshot.docs.forEach((doc) => {
+//         tasks.push({...doc.data(), id: doc.id})
+//         })
+//         console.log(tasks);
+//     })
+//     .catch(err =>{
+//         console.log(err.message);
+//     })
+////--------------------------------------------
+
+
+
+//Real-time collection of Data
+onSnapshot(colRef, (snapshot) => {
+    let tasks = [];
+    snapshot.docs.forEach((doc) => {
+    tasks.push({...doc.data(), id: doc.id})
     })
-    .catch(err =>{
-        console.log(err.message);
-    })
+    console.log(tasks);
+})
 
 
 //add task
@@ -69,3 +81,5 @@ DeleteTaskForm.addEventListener('submit', (e) =>{
         })
 
 })
+
+console.log('daddadada')
