@@ -37,5 +37,5 @@ getDocs(colRef)
         console.log(err.message);
     })
 
-console.log("edrich");
+console.log("dadddaddada");
 console.log("edrich");
