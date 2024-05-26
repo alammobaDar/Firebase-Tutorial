@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {
-    getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot
+    getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot,
+    query, where, orderBy, serverTimestamp, getDoc
 } from 'firebase/firestore' 
 
 const firebaseConfig = {
@@ -22,6 +23,8 @@ const db = getFirestore();
 //Collect the reference
 const colRef = collection(db,'Tasks');
 
+const q = query(colRef, orderBy('createdAt'))
+
 ////gets the collection Data-------------------
 // getDocs(colRef)
 //     .then((snapshot) => {
@@ -39,7 +42,7 @@ const colRef = collection(db,'Tasks');
 
 
 //Real-time collection of Data
-onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
     let tasks = [];
     snapshot.docs.forEach((doc) => {
     tasks.push({...doc.data(), id: doc.id})
@@ -59,6 +62,7 @@ AddTaskForm.addEventListener('submit',  (e) =>{
         startDate: AddTaskForm.startdate.value ,
         dueDate: AddTaskForm.duedate.value,
         assignedperson: AddTaskForm.assignedperson.value,
+        createdAt: serverTimestamp()
     })
     .then(() =>{
         AddTaskForm.reset()
@@ -82,4 +86,11 @@ DeleteTaskForm.addEventListener('submit', (e) =>{
 
 })
 
-console.log('daddadada')
+//fetch a single file
+
+const docRef = doc(db, 'Tasks', 'nGJ91FXkZsmSDP6argYM')
+
+onSnapshot(docRef, (doc) => {
+    console.log(doc.data(), doc.id)
+})
+
