@@ -5,7 +5,8 @@ import {
 } from 'firebase/firestore' 
 import {
     getAuth, createUserWithEmailAndPassword, signOut,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    SignInMethod
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -30,124 +31,63 @@ const auth = getAuth()
 
 const q = query(colRef, orderBy('createdAt'))
 
-////gets the collection Data-------------------
-// getDocs(colRef)
-//     .then((snapshot) => {
-//         let tasks = [];
-//         snapshot.docs.forEach((doc) => {
-//         tasks.push({...doc.data(), id: doc.id})
-//         })
-//         console.log(tasks);
-//     })
-//     .catch(err =>{
-//         console.log(err.message);
-//     })
-////--------------------------------------------
+// initializing sections
+const loginSection= document.getElementById("login-section")
+const dashboardSection = document.getElementById("dashboard")
+const signInSection = document.getElementById("sign-in-section")
 
-
-
-//Real-time collection of Data
-onSnapshot(q, (snapshot) => {
-    let tasks = [];
-    snapshot.docs.forEach((doc) => {
-    tasks.push({...doc.data(), id: doc.id})
-    })
-    console.log(tasks);
-})
-
-
-//add task
-const AddTaskForm = document.querySelector('.add')
-AddTaskForm.addEventListener('submit',  (e) =>{
+const signInForm = document.querySelector(".signIn")
+signInForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
-    //add the values that the 'colRef' collects
-    addDoc(colRef, {
-        task: AddTaskForm.taskname.value, 
-        startDate: AddTaskForm.startdate.value ,
-        dueDate: AddTaskForm.duedate.value,
-        assignedperson: AddTaskForm.assignedperson.value,
-        createdAt: serverTimestamp()
-    })
-    .then(() =>{
-        AddTaskForm.reset()
-    })
-})
-
-const DeleteTaskForm = document.querySelector('.delete')
-DeleteTaskForm.addEventListener('submit', (e) =>{
-    e.preventDefault()
-
-    const docRef = doc(db, 'Tasks', DeleteTaskForm.id.value)
-        
-    deleteDoc(docRef)
-        .then(() => {
-            DeleteTaskForm.reset()
-        })
-        .catch(err => {
-            console.log("Wrong input");
-            console.log(err.message);
-        })
-
-})
-
-//fetch a single file
-
-const docRef = doc(db, 'Tasks', 'nGJ91FXkZsmSDP6argYM')
-
-onSnapshot(docRef, (doc) => {
-    console.log(doc.data(), doc.id)
-})
-
-//signing users up
-const Signupform = document.querySelector('.signup')
-Signupform.addEventListener('submit', (e) =>{
-    e.preventDefault()
-
-    const email = Signupform.email.value
-    const password = Signupform.password.value
+    const email = signInForm.email.value
+    const password = signInForm.password.value
 
     createUserWithEmailAndPassword(auth, email, password)
-        .then((cred) =>{
-            console.log('User created: ',cred.user)
-            Signupform.reset()
+        .them((cred) =>{
+            window.alert(`user created ${cred.user}`)
+           
+            dashboardSection.classList.remove('hidden')
         })
         .catch((err) => {
-            console.log(err.message)
-        })
-})
-
-
-//log accounts up
-const LoginForm = document.querySelector('.login')
-LoginForm.addEventListener('submit', (e) =>{
-    e.preventDefault()
-
-    const email = LoginForm.email.value
-    const password = LoginForm.password.value
-
-    signInWithEmailAndPassword(auth, email, password)
-        .then((cred) => {
-            console.log("The user login: ", cred.user)
-            console.log("Done")
-        })
-        .catch((err) => {
-            console.log(err.message)
+            window.alert(`ALERT ${err.user}`)
         })
 
-
-})
-
-// log accounts out
-const LogoutForm = document.querySelector('.logout')
-LogoutForm.addEventListener('click', () => {
+    const changelogin = document.querySelector('.loginBTN')
+    changelogin.addEventListener('click', () => {
+        loginSection.classList.remove('hidden')
+        signInSection.classList.add('hidden')
+    })
     
-    signOut(auth)
-        .then(() => {
-            console.log("The user signed out")
-        })
-        .catch((err) =>{
-            console.log(err.message)
-        })
 })
 
+const loginForm = document.querySelector('.login')
+loginForm.addEventListener('submit', (e) => {
+   e.preventDefault()
+
+   const email = loginForm.email.value
+   const password =loginForm.password.value
+
+   signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+        window.alert(`User created: ${cred.user}`)
+
+        dashboardSection.classList.remove('hidden')
+    })
+    .catch((err) =>{
+        window.alert(`ALERT: ${err.message}`)
+    })
+    
+})
+
+    const changesignin = document.querySelector('.signinBTN')
+    changesignin.addEventListener('click', () =>  {
+        loginSection.classList.add('hidden')
+        signInSection.classList.remove('hidden')
+    })
+        
+    const changelogin = document.querySelector('.loginBTN')
+    changelogin.addEventListener('click', () => {
+        loginSection.classList.remove('hidden')
+        signInSection.classList.add('hidden')
+    })   
