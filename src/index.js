@@ -4,17 +4,18 @@ import {
     query, where, orderBy, serverTimestamp, getDoc
 } from 'firebase/firestore' 
 import {
-    getAuth, createUserWithEmailAndPassword, signOut
+    getAuth, createUserWithEmailAndPassword, signOut,
+    signInWithEmailAndPassword
 } from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyACQCEbGGkFLra0S-PQB1FyoQCSzJ_k6iE",
-    authDomain: "fir-tutorial-8b83e.firebaseapp.com",
-    projectId: "fir-tutorial-8b83e",
-    storageBucket: "fir-tutorial-8b83e.appspot.com",
-    messagingSenderId: "154291836076",
-    appId: "1:154291836076:web:931a15f0cbeb276fb53b09",
-    measurementId: "G-R5L0MXNKMJ"
+  authDomain: "fir-tutorial-8b83e.firebaseapp.com",
+  projectId: "fir-tutorial-8b83e",
+  storageBucket: "fir-tutorial-8b83e.appspot.com",
+  messagingSenderId: "154291836076",
+  appId: "1:154291836076:web:931a15f0cbeb276fb53b09",
+  measurementId: "G-R5L0MXNKMJ"
 };
 
 //initialize the firebase app
@@ -102,18 +103,18 @@ onSnapshot(docRef, (doc) => {
 const Signupform = document.querySelector('.signup')
 DeleteTaskForm.addEventListener('submit', (e) =>{
     e.preventDefault()
+
     const email = Signupform.email.value
     const password = Signupform.password.value
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((cred) =>{
-            console.log("User created: ",cred.user)
+            console.log('User created: ',cred.user)
             Signupform.reset()
         })
         .catch((err) => {
             console.log(err.message)
         })
-
 })
 
 const LoginForm = document.querySelector('.login')
@@ -121,7 +122,16 @@ LoginForm.addEventListener('submit', (e) =>{
     e.preventDefault()
 
     const email = LoginForm.email.value
-    const password = LoginForm.email.value
+    const password = LoginForm.password.value
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((cred) => {
+            console.log("The user login: ", cred.user)
+            console.log("Done")
+        })
+        .catch((err) => {
+            console.log(err.message)
+        })
 
 
 })
@@ -129,6 +139,12 @@ LoginForm.addEventListener('submit', (e) =>{
 const LogoutForm = document.querySelector('.logout')
 LogoutForm.addEventListener('click', () => {
     
-    signOut()
+    signOut(auth)
+        .then(() => {
+            console.log("The user signed out")
+        })
+        .catch((err) =>{
+            console.log(err.message)
+        })
 })
 
