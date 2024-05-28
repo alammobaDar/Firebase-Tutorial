@@ -3,6 +3,9 @@ import {
     getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot,
     query, where, orderBy, serverTimestamp, getDoc
 } from 'firebase/firestore' 
+import {
+    getAuth, createUserWithEmailAndPassword, signOut
+} from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: "AIzaSyACQCEbGGkFLra0S-PQB1FyoQCSzJ_k6iE",
@@ -22,6 +25,7 @@ const db = getFirestore();
 
 //Collect the reference
 const colRef = collection(db,'Tasks');
+const auth = getAuth()
 
 const q = query(colRef, orderBy('createdAt'))
 
@@ -92,5 +96,39 @@ const docRef = doc(db, 'Tasks', 'nGJ91FXkZsmSDP6argYM')
 
 onSnapshot(docRef, (doc) => {
     console.log(doc.data(), doc.id)
+})
+
+//signing users up
+const Signupform = document.querySelector('.signup')
+DeleteTaskForm.addEventListener('submit', (e) =>{
+    e.preventDefault()
+    const email = Signupform.email.value
+    const password = Signupform.password.value
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((cred) =>{
+            console.log("User created: ",cred.user)
+            Signupform.reset()
+        })
+        .catch((err) => {
+            console.log(err.message)
+        })
+
+})
+
+const LoginForm = document.querySelector('.login')
+LoginForm.addEventListener('submit', (e) =>{
+    e.preventDefault()
+
+    const email = LoginForm.email.value
+    const password = LoginForm.email.value
+
+
+})
+
+const LogoutForm = document.querySelector('.logout')
+LogoutForm.addEventListener('click', () => {
+    
+    signOut()
 })
 
