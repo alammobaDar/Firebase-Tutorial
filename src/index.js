@@ -101,7 +101,7 @@ onSnapshot(docRef, (doc) => {
 
 //signing users up
 const Signupform = document.querySelector('.signup')
-DeleteTaskForm.addEventListener('submit', (e) =>{
+Signupform.addEventListener('submit', (e) =>{
     e.preventDefault()
 
     const email = Signupform.email.value
